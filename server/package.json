@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
+    "build": "tsc",
+    "check-types": "tsc --noEmit",
     "lint": "eslint . --ext .ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run check-types && npm run lint"
   },
   "author": "nikoleh",
   "license": "MIT",
