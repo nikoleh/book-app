@@ -1,5 +1,5 @@
 import express from 'express'
-import NYTimesBookClient from './client/nyTimesBookClient';
+import NYTimesBookClient from './client/nyTimesBookClient'
 import * as bookMapper from './mapper'
 
 const app = express()
@@ -14,7 +14,7 @@ app.get('/api/books/categories', (_, res) => nyTimesClient
         res.status(500)
         res.statusMessage = 'Internal server error'
         res.send()
-    }));
+    }))
 
 app.get('/api/books/:categoryId/top10', (req, res) => {
     nyTimesClient.getBestSellersList({

@@ -1,4 +1,4 @@
-import { Book, BookCategory, BookReview } from "./types";
+import { Book, BookCategory, BookReview } from "./types"
 import {
     Book as NYTimesBook,
     BestSellersListNamesResponse,
@@ -6,7 +6,7 @@ import {
     BookReviewResult,
     BestSellersListResponse,
     BookReviewResponse,
-} from "./client/types";
+} from "./client/types"
 
 const toCategory = (result: BestSellersListNamesResult): BookCategory => {
     return {

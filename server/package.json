@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
+    "lint": "eslint . --ext .ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "nikoleh",
@@ -13,6 +14,9 @@
     "@types/axios": "^0.14.0",
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.18",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
     "ts-node": "^10.5.0",
     "typescript": "^4.5.5"
   },
