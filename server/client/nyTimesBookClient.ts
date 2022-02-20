@@ -34,7 +34,7 @@ export default class NYTimesBookClient {
             .then(response => response.data)
     }
 
-    public getBestSellersLists = (request: GetBestSellersListRequest): Promise<BestSellersListResponse> => {
+    public getBestSellersList = (request: GetBestSellersListRequest): Promise<BestSellersListResponse> => {
         return axios
             .get<BestSellersListResponse>(
                 this.createRequestURL([
@@ -52,8 +52,6 @@ export default class NYTimesBookClient {
     }
 
     private createRequestURL = (urlParts: string[], parameters?: Record<string, any>): string => {
-        return `${this.settings.baseUrl}
-            ${urlParts.join('/')}
-            ?${new URLSearchParams({...parameters, 'api-key': this.settings.apiKey})}`
+        return `${this.settings.baseUrl}${urlParts.join('/')}?${new URLSearchParams({...parameters, 'api-key': this.settings.apiKey})}`
     }
 }

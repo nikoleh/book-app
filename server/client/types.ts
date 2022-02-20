@@ -25,7 +25,7 @@ interface NYTimesResponse {
     last_modified?: string
 }
 
-interface BestSellersListNamesResult {
+export interface BestSellersListNamesResult {
     list_name: string,
     display_name: string,
     list_name_encoded: string,
@@ -48,7 +48,7 @@ interface ISBN {
     isbn13: string
 }
 
-interface Book {
+export interface Book {
     rank: number,
     rank_last_week: number,
     weeks_on_list: number,
@@ -77,7 +77,7 @@ interface Book {
     book_uri: string
 }
 
-interface BestSellersListResult {
+export interface BestSellersListResult {
     list_name: string,
     list_name_encoded: string,
     bestsellers_date: string,
@@ -92,10 +92,10 @@ interface BestSellersListResult {
 }
 
 export interface BestSellersListResponse extends NYTimesResponse {
-    results: BestSellersListResult[]
+    results: BestSellersListResult
 }
 
-interface BookReviewResult {
+export interface BookReviewResult {
     url: string,
     publication_date: string,
     byline: string,
