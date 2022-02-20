@@ -4,8 +4,13 @@ import * as bookMapper from './mapper'
 
 const app = express()
 const port = process.env.SERVER_PORT || 3000
+const nyTimesApiKey = process.env.NY_TIMES_API_KEY || ''
 
-const nyTimesClient = new NYTimesBookClient({ apiKey: process.env.NY_TIMES_API_KEY || '' })
+if (nyTimesApiKey === '') {
+    console.warn('NY Times API key not defined')
+}
+
+const nyTimesClient = new NYTimesBookClient({ apiKey: nyTimesApiKey })
 
 app.get('/api/books/categories', (_, res) => nyTimesClient
     .getBestSellersListNames()
