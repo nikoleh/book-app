@@ -1,16 +1,19 @@
-import express from 'express'
+import express, { static as staticFiles } from 'express'
 import NYTimesBookClient from './client/nyTimesBookClient'
 import * as bookMapper from './mapper'
 
 const app = express()
 const port = process.env.SERVER_PORT || 3000
 const nyTimesApiKey = process.env.NY_TIMES_API_KEY || ''
+const staticFilesLocation = process.env.STATIC_FILES_LOCATION || 'static'
 
 if (nyTimesApiKey === '') {
     console.warn('NY Times API key not defined')
 }
 
 const nyTimesClient = new NYTimesBookClient({ apiKey: nyTimesApiKey })
+
+app.use(staticFiles(staticFilesLocation))
 
 app.get('/api/books/categories', (_, res) => nyTimesClient
     .getBestSellersListNames()
