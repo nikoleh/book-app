@@ -2,12 +2,23 @@ FROM node:16
 
 WORKDIR /usr/src/app
 
-COPY server/package*.json ./server/
+# Copy server app's project files and install dependencies
+COPY server/package*.json ./
+RUN npm install
 
-RUN npm --prefix ./server install
+# Copy frontend app's project files and install dependencies
+COPY frontend/package*.json ./frontend/
+RUN npm --prefix ./frontend install
 
-COPY server ./server
+# Copy server app's source code and build it
+COPY server .
+RUN npm run build
 
-RUN npm --prefix ./server run build
+# Copy frontend app's source code and build it
+COPY frontend ./frontend
+RUN npm --prefix ./frontend run build
 
-CMD ["node","server/index.js"]
+# Tell server app from where to serve frontend
+ENV STATIC_FILES_LOCATION=frontend/build
+
+CMD ["node","index.js"]
