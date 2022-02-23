@@ -1,5 +1,5 @@
 import { render } from 'react-dom'
 
-import BookListView from './book-list'
+import App from './components'
 
-render(<BookListView />, document.getElementById('main'))
+render(<App />, document.getElementById('main'))

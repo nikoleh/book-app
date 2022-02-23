@@ -17,25 +17,28 @@ app.use(staticFiles(staticFilesLocation))
 
 app.get('/api/books/categories', (_, res) => nyTimesClient
     .getBestSellersListNames()
-    .then((response) => res.send(bookMapper.toCategories(response)))
+    .then((response) => res.send(response.results.map(bookMapper.toCategory)))
     .catch(() => {
         res.status(500)
         res.statusMessage = 'Internal server error'
         res.send()
     }))
 
-app.get('/api/books/:categoryId/top10', (req, res) => {
+app.get('/api/books/:categoryId/top', (req, res) => {
+    const topAmount: number = typeof req.query['topAmount'] === 'string' ? parseInt(req.query['topAmount']) : 10
+
     nyTimesClient.getBestSellersList({
         dateString: 'current',
         encodedListName: req.params.categoryId
-    }).then(response => res.send(bookMapper.toBooks(response)))
+    }).then(response => res.send(
+        response.results.books.filter(book => book.rank <= topAmount).map(bookMapper.toBook)))
     .catch(() => res.send([]))
 })
 
 app.get('/api/books/:isbn/reviews', (req, res) => {
     nyTimesClient.getBookReviews({
         isbn: req.params.isbn
-    }).then(response => res.send(bookMapper.toReviews(response)))
+    }).then(response => res.send(response.results.map(bookMapper.toReview)))
     .catch(() => res.send([]))
 })
 
