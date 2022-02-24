@@ -9,7 +9,8 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import IconButton from '@mui/material/IconButton'
 import Collapse from '@mui/material/Collapse'
-import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
+import CircularProgress from '@mui/material/CircularProgress'
 import Typography from '@mui/material/Typography'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
@@ -61,18 +62,29 @@ const BookTableRow = (props: RowProps) => {
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open}>
-            <Box>
-              <Typography variant='h6'>
-                Reviews
-              </Typography>
-              <ul id='review-list'>
-                {reviews.map((review, index) => (
-                  <li key={`review-${index}`}>
-                    <a href={review.link}>{review.reviewer}</a>
-                  </li>
-                ))}
-              </ul>
-            </Box>
+            {
+              reviewsState.loading
+                ? (
+                  <Stack alignItems="center">
+                    <CircularProgress />
+                  </Stack>
+                ) : reviews.length > 0 ?
+                  <>
+                    <Typography variant='h6'>
+                      Reviews
+                    </Typography>
+                    <ul id='review-list'>
+                      {reviews.map((review, index) => (
+                        <li key={`review-${index}`}>
+                          <a href={review.link}>{review.reviewer}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                  : <Typography variant='h6'>
+                     No reviews available
+                  </Typography>
+            }
           </Collapse>
         </TableCell>
       </TableRow>
