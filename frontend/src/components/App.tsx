@@ -1,3 +1,5 @@
+import Grid from '@mui/material/Grid'
+
 import { useCategories, useBooks } from '../hooks'
 import { BookTable, CategorySelector } from './best-seller-inspector'
 
@@ -8,8 +10,14 @@ export const App = () => {
 
   return (
     <>
-      <CategorySelector onSelect={getBooks} categories={categories} />
-      <BookTable books={books} />
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <CategorySelector onSelect={getBooks} categories={categories} />
+        </Grid>
+        <Grid item xs={12}>
+          <BookTable books={books} />
+        </Grid>
+      </Grid>
     </>
   )
 }

@@ -7,33 +7,98 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
+import IconButton from '@mui/material/IconButton'
+import Collapse from '@mui/material/Collapse'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 
-interface Props {
+import styled from 'styled-components'
+
+import { useState } from 'react'
+import { useReviews } from '../../hooks'
+
+interface RowProps {
+  book: Book
+}
+
+interface TableProps {
   books: Book[]
 }
 
-export const BookTable = (props: Props) => {
+const CollapsibleRow = styled(TableRow)`
+      & > * {
+        border-bottom: unset;
+    }
+`
+
+const BookTableRow = (props: RowProps) => {
+  const { book } = props
+  const [open, setOpen] = useState<boolean>(false)
+  const { reviews, getReviews, ...reviewsState } = useReviews()
+
+  const handleOpenRow = () => {
+    setOpen(true)
+    if (reviewsState.success) return
+    getReviews(book.isbn)
+  }
+
+  return (
+    <>
+      <CollapsibleRow>
+        <TableCell>
+          <IconButton
+            size='small'
+            onClick={() => open ? setOpen(false) : handleOpenRow()}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell>{book.title}</TableCell>
+        <TableCell>{book.author}</TableCell>
+        <TableCell>{book.isbn}</TableCell>
+      </CollapsibleRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open}>
+            <Box>
+              <Typography variant='h6'>
+                Reviews
+              </Typography>
+              <ul id='review-list'>
+                {reviews.map((review, index) => (
+                  <li key={`review-${index}`}>
+                    <a href={review.link}>{review.reviewer}</a>
+                  </li>
+                ))}
+              </ul>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
+  )
+}
+
+export const BookTable = (props: TableProps) => {
   const { books } = props
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell />
             <TableCell>Title</TableCell>
             <TableCell>Author</TableCell>
             <TableCell>ISBN</TableCell>
-            <TableCell>Reviews</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {books.map((book, index) => (
-            <TableRow
-              key={`table-row-${index}`}>
-              <TableCell>{book.title}</TableCell>
-              <TableCell>{book.author}</TableCell>
-              <TableCell>{book.isbn}</TableCell>
-              <TableCell>Reviews</TableCell>
-            </TableRow>
+            <BookTableRow
+              key={`table-row-${index}`}
+              book={book}
+            />
           ))}
         </TableBody>
       </Table>
