@@ -76,7 +76,7 @@ const BookTableRow = (props: RowProps) => {
                     <ul id='review-list'>
                       {reviews.map((review, index) => (
                         <li key={`review-${index}`}>
-                          <a href={review.link}>{review.reviewer}</a>
+                          <a href={review.link}>{review.reviewer || 'Unknown Reviewer'}</a>
                         </li>
                       ))}
                     </ul>
