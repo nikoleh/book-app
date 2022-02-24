@@ -1,11 +1,12 @@
 import Grid from '@mui/material/Grid'
+import CircularProgress from '@mui/material/CircularProgress'
+import Stack from '@mui/material/Stack'
 
 import { useCategories, useBooks } from '../hooks'
 import { BookTable, CategorySelector } from './best-seller-inspector'
 
-
 export const App = () => {
-  const { books, getBooks } = useBooks()
+  const { books, getBooks, ...booksState } = useBooks()
   const { categories } = useCategories()
 
   return (
@@ -15,7 +16,15 @@ export const App = () => {
           <CategorySelector onSelect={getBooks} categories={categories} />
         </Grid>
         <Grid item xs={12}>
-          <BookTable books={books} />
+          {booksState.loading
+            ? (
+              <Stack alignItems="center">
+                <CircularProgress />
+              </Stack>
+            )
+            : (
+              books.length > 0 ? <BookTable books={books} /> : null
+            )}
         </Grid>
       </Grid>
     </>

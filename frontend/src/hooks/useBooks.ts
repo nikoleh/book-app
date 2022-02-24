@@ -15,6 +15,7 @@ export const useBooks = (): Context => {
   const [error, setError] = useState<boolean>(false)
 
   const getBooks = (categoryId: string) => {
+    setLoading(true)
     fetchTopBooks(categoryId)
       .then(setBooks)
       .catch(() => setError(true))
